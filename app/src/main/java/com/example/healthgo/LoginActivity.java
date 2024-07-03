@@ -1,7 +1,10 @@
 package com.example.healthgo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,10 +42,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("Range")
             @Override
             public void onClick(View v) {
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
+
+                Cursor cursor = db.getUserByEmail(email);
+                //Log.d("cursor", cursor.getString(cursor.getColumnIndex("FIRST_NAME")));
 
                 if (email.isEmpty() || password.isEmpty())
                 {
@@ -51,9 +58,18 @@ public class LoginActivity extends AppCompatActivity {
                     boolean checkUser = db.checkUser(email, password);
                     if ( checkUser )
                     {
+                        int userID = cursor.getInt(cursor.getColumnIndex("ID"));
+                        String firstName = cursor.getString(cursor.getColumnIndex("FIRST_NAME"));
+                        String lastName = cursor.getString(cursor.getColumnIndex("LAST_NAME"));
+
                         Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                        intent.putExtra("userID", userID);
+                        intent.putExtra("firstName", firstName);
+                        intent.putExtra("lastName", lastName);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(LoginActivity.this, "Please check your email and password...", Toast.LENGTH_SHORT).show();
                     }
