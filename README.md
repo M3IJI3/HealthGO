@@ -3,8 +3,6 @@
 ## 📘 Introduction
 **HealthGo** is a comprehensive, data-driven health app designed to help users achieve their health and wellness goals. By integrating nutrition and food tracking and calorie counting, HealthGo provides a holistic approach to health management.
 
----
-
 ## 🎯 Objectives
 The app is about to provide users with tools to track their nutrition and make informed food choices. Meanwhile, it can offer personalized exercise plans and activity tracking to motivate users to stay active.
 
