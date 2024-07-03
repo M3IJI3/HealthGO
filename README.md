@@ -1,4 +1,4 @@
-# 🏥 HealthGO 
+# 🏥 HealthGO - Proposal
 
 ## 📘 Introduction
 **HealthGo** is a comprehensive, data-driven health app designed to help users achieve their health and wellness goals. By integrating nutrition and food tracking and calorie counting, HealthGo provides a holistic approach to health management.
@@ -31,4 +31,5 @@ The app is about to provide users with tools to track their nutrition and make i
 
 ## 🏁 Conclusion
 HealthGo aims to be an all-in-one health and wellness companion. By integrating nutrition, exercise, and activity tracking, HealthGo offers a comprehensive approach to health management, ensuring users have the tools and motivation they need to lead a healthier life.
+
 
