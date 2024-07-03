@@ -23,6 +23,8 @@ The app is about to provide users with tools to track their nutrition and make i
 - **Calorie Goals**: Set daily calorie intake goals based on user profile and objectives (weight loss, maintenance, gain).
 - **Diet Plans**: Make various diet plans (e.g. vegetarian, low carb).
 
+***
+
 ## 🔌 APIs
 - **Recording API on mobile**: The Recording API on mobile allows the app to record steps from a mobile device in a battery-efficient way. It is going to be used when implementing daily step count.
     - [Recording API](https://developer.android.com/health-and-fitness/guides/recording-api)
