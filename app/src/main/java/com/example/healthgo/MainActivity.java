@@ -2,6 +2,7 @@ package com.example.healthgo;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,13 +32,11 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final int GOOGLE_FIT_PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = "MainActivity";
-
     public TextView textViewFirstName, textViewDate, textViewBMI;
     public ImageButton imgButtonBMI;
-    String savedFirstName, savedLastName;
+    String firstName, lastName;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -66,13 +65,19 @@ public class MainActivity extends AppCompatActivity {
         textViewBMI = findViewById(R.id.textViewBMI);
 
         Intent intent = getIntent();
-
         String bmi = intent.getStringExtra("bmi");
 
-        savedFirstName = intent.getStringExtra("firstName");
-        savedLastName = intent.getStringExtra("lastName");
+        if(intent != null && intent.hasExtra("firstName") && intent.hasExtra("lastName"))
+        {
+            firstName = intent.getStringExtra("firstName");
+            lastName = intent.getStringExtra("lastName");
+            saveUserData(firstName, lastName);
+        } else {
+            loadUserData();
+            Log.d("123", firstName);
+        }
 
-        textViewFirstName.setText(savedFirstName + " " + savedLastName);
+        textViewFirstName.setText(firstName + " " + lastName);
         textViewDate.setText("Today is " + getCurrentDate());
         textViewBMI.setText(bmi);
 
@@ -89,6 +94,24 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void saveUserData(String firstName, String lastName)
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("firstName",firstName);
+        editor.putString("lastName", lastName);
+        Log.d("test", firstName);
+        editor.apply();
+    }
+
+    private void loadUserData()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE);
+        firstName = sharedPreferences.getString("firstName","");
+        lastName = sharedPreferences.getString("lastName", "");
+        Log.d("123",firstName);
     }
 
     public String getCurrentDate()
@@ -135,8 +158,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "DataSet is empty.");
                             }
                             Log.d(TAG, "Total steps: " + totalSteps);
-
-                            stepsTextView.setText(totalSteps+"");
+                            stepsTextView.setText(totalSteps + "");
                         } else {
                             Log.e("MainActivity", "There was a problem getting the step count.", task.getException());
                         }
