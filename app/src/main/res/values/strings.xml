@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">HealthGO</string>
+    <string name="default_value">Null</string>
 
+    <string name="name">Name</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">E-mail</string>
@@ -11,4 +13,11 @@
     <string name="register">Register</string>
     <string name="submit">Submit</string>
     <string name="welcome">Welcome,</string>
+
+    <string name="bmi">BMI</string>
+    <string name="bmi_desc">* Body Mass Index (BMI) is a person’s weight in kilograms divided by the square of height in meters. A high BMI can indicate high body fatness. BMI screens for weight categories that may lead to health problems, but it does not diagnose the body fatness or health of an individual.</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="default_bmi">0.0</string>
+    <string name="save">Save</string>
 </resources>
