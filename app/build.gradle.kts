@@ -44,4 +44,7 @@ dependencies {
     // daily steps dependencies
     implementation("com.google.android.gms:play-services-auth:20.0.0")
     implementation("com.google.android.gms:play-services-fitness:21.0.1")
+
+    // chart
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

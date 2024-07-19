@@ -20,6 +20,6 @@
     <string name="height">Height</string>
     <string name="default_bmi">0.0</string>
     <string name="save">Save</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="add_new_weight">Update Weight</string>
 </resources>

@@ -65,6 +65,8 @@
 
                 <include layout="@layout/bmi_card" />
 
+                <include layout="@layout/weight_linechart_card" />
+
             </LinearLayout>
         </ScrollView>
 
