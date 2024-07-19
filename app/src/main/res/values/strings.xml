@@ -22,4 +22,10 @@
     <string name="save">Save</string>
 
     <string name="add_new_weight">Update Weight</string>
+
+    <string name="calorie">Calorie</string>
+    <string name="daily_calorie_target">Daily Target</string>
+    <string name="calorie_intake_default">0</string>
+    <string name="cal_measure">Cal</string>
+    <string name="calorie_intake">Intake</string>
 </resources>

@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -47,4 +48,7 @@ dependencies {
 
     // chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // circular progress bar
+    implementation ("com.mikhaellopez:circularprogressbar:3.1.0")
 }

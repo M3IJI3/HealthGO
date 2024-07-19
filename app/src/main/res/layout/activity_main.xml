@@ -67,6 +67,18 @@
 
                 <include layout="@layout/weight_linechart_card" />
 
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/calorie"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/exo2_regular" />
+
+                <include layout="@layout/calorie_card" />
+
             </LinearLayout>
         </ScrollView>
 

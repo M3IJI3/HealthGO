@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
-import java.util.List;
-
-public class BottomSheetFragment extends BottomSheetDialogFragment {
-    private BottomSheetListener mListener;
-    public interface BottomSheetListener {
+public class WeightBottomSheetFragment extends BottomSheetDialogFragment {
+    private BMIBottomSheetListener mListener;
+    public interface BMIBottomSheetListener {
         void onSaveClicked(Float weight);
     }
 
@@ -26,7 +23,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     {
         super.onAttach(context);
         try {
-            mListener = (BottomSheetListener) context;
+            mListener = (BMIBottomSheetListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement BottomSheetListener");
         }
@@ -35,7 +32,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bottom_sheet, container, false);
+        View view = inflater.inflate(R.layout.bmi_fragment_bottom_sheet, container, false);
 
         NumberPicker numberPicker1 = view.findViewById(R.id.number_picker_1);
         NumberPicker numberPicker2 = view.findViewById(R.id.number_picker_2);

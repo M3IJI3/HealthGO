@@ -23,7 +23,7 @@ public class BMIActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_bmiactivity);
+        setContentView(R.layout.activity_bmi_activity);
 
         height = findViewById(R.id.editTextHeight);
         weight = findViewById(R.id.editTextWeight);
