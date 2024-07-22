@@ -51,4 +51,10 @@ dependencies {
 
     // circular progress bar
     implementation ("com.mikhaellopez:circularprogressbar:3.1.0")
+
+    // api using
+    implementation("com.android.volley:volley:1.2.1")
+
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.cardview:cardview:1.0.0")
 }

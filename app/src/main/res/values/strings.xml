@@ -23,9 +23,14 @@
 
     <string name="add_new_weight">Update Weight</string>
 
-    <string name="calorie">Calorie</string>
-    <string name="daily_calorie_target">Daily Target</string>
+    <string name="calorie">Daily Diet</string>
+    <string name="daily_calorie_target">Daily Target (Cal)</string>
     <string name="calorie_intake_default">0</string>
     <string name="cal_measure">Cal</string>
-    <string name="calorie_intake">Intake</string>
+    <string name="calorie_intake">Intake (Cal)</string>
+
+    <string name="food_calorie">Check Food Calorie</string>
+    <string name="search_result">search result display here…</string>
+
+    <string name="trend">TREND</string>
 </resources>

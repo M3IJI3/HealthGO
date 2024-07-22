@@ -1,9 +1,11 @@
 package com.example.healthgo;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +22,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -42,15 +52,22 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements WeightBottomSheetFragment.BMIBottomSheetListener {
     private static final int GOOGLE_FIT_PERMISSION_REQUEST_CODE = 1;
+    private static final String  API_KEY = "lS0Hs1wMVLNljtLgGYbWaw==sl3oMVgmfEsaaDFR";
     private static final String TAG = "MainActivity";
     public TextView textViewFirstName, textViewDate, textViewBMI, textViewDailyCalorieTarget, textViewCalorieIntake;
     public ImageButton imgButtonBMI, imgButtonAddWeight, imgButtonAddCalorie;
@@ -65,8 +82,12 @@ public class MainActivity extends AppCompatActivity implements WeightBottomSheet
     private BarData barData;
     List<Float> weightList;
     List<BarEntry> entries;
+    private int intakeAccumulated;
 
-    private int intakeAccumulated = 0;
+    // search view
+    public SearchView searchView;
+    public TextView resultText;
+    public RequestQueue requestQueue;
 
     @SuppressLint({"SetTextI18n", "ClickableViewAccessibility"})
     @Override
@@ -94,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements WeightBottomSheet
             accessGoogleFit();
         }
 
+        intakeAccumulated = 0;
+
         textViewFirstName = findViewById(R.id.textViewName);
         textViewDate = findViewById(R.id.textViewDate);
         imgButtonBMI = findViewById(R.id.imgButtonBMI);
@@ -109,6 +132,11 @@ public class MainActivity extends AppCompatActivity implements WeightBottomSheet
         // weight bar chart
         barChartWeight = findViewById(R.id.barChartWeight);
 
+        searchView = findViewById(R.id.searchView);
+        resultText = findViewById(R.id.textViewResult);
+        requestQueue = Volley.newRequestQueue(this);
+
+        // search
         weightList = new LinkedList<>();
         entries = new ArrayList<>();
 
@@ -190,6 +218,19 @@ public class MainActivity extends AppCompatActivity implements WeightBottomSheet
             }
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                fetchCalorieData(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -197,6 +238,57 @@ public class MainActivity extends AppCompatActivity implements WeightBottomSheet
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void fetchCalorieData(String query) {
+        String url = "https://api.api-ninjas.com/v1/nutrition?query=" + query;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            if (response.length() > 0) {
+                                JSONObject foodItem = response.getJSONObject(0);
+                                String foodName = foodItem.getString("name");
+                                int fat = foodItem.getInt("fat_total_g");
+                                int fatSaturated = foodItem.getInt("fat_saturated_g");
+                                int sodium = foodItem.getInt("sodium_mg");
+                                int potassium = foodItem.getInt("potassium_mg");
+                                int cholesterol = foodItem.getInt("cholesterol_mg");
+                                int carbohydrates = foodItem.getInt("carbohydrates_total_g");
+                                String result = "Name: " + foodName + "\n" +
+                                                "Fat: " + fat + "mg\n" +
+                                                "Fat Saturated: " + fatSaturated + "mg\n" +
+                                                "Sodium: " + sodium + "mg\n" +
+                                                "Potassium: " + potassium + "mg\n" +
+                                                "Cholesterol: " + cholesterol + "mg\n" +
+                                                "Carbohydrates: " + carbohydrates + "mg\n";
+                                resultText.setText(result);
+                            } else {
+                                resultText.setText("No data found.");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            resultText.setText("Error parsing response");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        volleyError.printStackTrace();
+                        resultText.setText("Error fetching data.");
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("X-Api-Key", API_KEY); // Replace with your actual API key
+                return headers;
+            }
+        };
+        requestQueue.add(jsonArrayRequest);
     }
 
     private void replaceTextViewWithEditText(final TextView textView) {
