@@ -456,8 +456,6 @@ public class MainActivity extends AppCompatActivity implements WeightBottomSheet
         }
     }
 
-
-
     private boolean isFirstTime()
     {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE);
